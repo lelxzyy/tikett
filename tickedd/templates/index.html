@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemesanan Tiket</title>
+</head>
+<body>
+    <h1>Pemesanan Tiket Acara</h1>
+    <form id="ticketForm">
+        <label for="name">Nama Lengkap:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <button type="submit">Pesan Tiket</button>
+    </form>
+
+    <div id="confirmation" style="display:none;">
+        <h3>Pemesanan Berhasil!</h3>
+        <p>QR Code tiket akan dikirimkan ke email Anda.</p>
+    </div>
+
+    <script>
+        document.getElementById('ticketForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let name = document.getElementById('name').value;
+            let email = document.getElementById('email').value;
+
+            // Kirim data ke server untuk diproses
+            fetch('/submit_ticket', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, email })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('confirmation').style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
